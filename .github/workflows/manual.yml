@@ -1,0 +1,19 @@
+# .github/workflows/example.yml
+
+name: Merge upstream branches
+on:
+  workflow_dispatch:
+  schedule:
+    - cron:  '*/5 * * * *'
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Merge upstream
+        run: |
+          git config --global user.name 'update-bot'
+          git config --global user.email 'update-bot@users.noreply.github.com'
+
+          git clone --bare https://github.com/confluentinc/cp-ansible.git
+          git push --mirror https://github.com/Disss/cp-ansible.git
